@@ -1,57 +1,67 @@
 //Parte1 informacion del curso
-//EJERCICOS 1.3.-1.4
-//PASOS 3,4
+//EJERCICIO 1.5
+//PASO 5
 import React from 'react';
 import ReactDOM from 'react-dom';
 const Header= (props)=>{
 	return(
 		<>
-			<h1> {props.course} </h1>
+			<h1> {props.Course.name} </h1>
 		</>
 		)
 }
 const Content=(props)=>{
 	console.log(props)
+	
 	return(
 	<>
-		<p> {props.Parts[0].name} Ejercicios {props.Parts[0].excer} </p>
-		<p> {props.Parts[1].name} Ejercicios {props.Parts[1].excer} </p>
-		<p> {props.Parts[2].name} Ejercicios {props.Parts[2].excer} </p>
+		<p> {props.Course.Parts[0].name} Ejercicios {props.Course.Parts[0].excer} </p>
+		<p> {props.Course.Parts[1].name} Ejercicios {props.Course.Parts[1].excer} </p>
+		<p> {props.Course.Parts[2].name} Ejercicios {props.Course.Parts[2].excer} </p>
 		
 
 	</>
 	)
 }
 const Total=(props) =>{
+	var acc=0
+	var i=0
+		for(i in props.Course.Parts){
+			acc=acc+props.Course.Parts[i].excer
+			
+		}
+	
 	return(
-			<p>Total de Ejercicios {props.Parts[0].excer+props.Parts[1].excer+props.Parts[2].excer}</p>
+			<p>Total de Ejercicios es {acc}</p>
 			)
 	
 
 }
 const App = () => {
-  const course = 'Half Stack application development'
-  const Parts=[
-{
-  	name:'Fundamentals of React',
-    excer: 10
-},
-{
-  	name: 'Using props to pass data',
-    excer:  7
-},
-{
-  	name: 'State of a component',
-    excer: 14
+  const Course = {
+  	name:'Half Stack application development',
+    Parts:[
+	{
+  		name:'Fundamentals of React',
+    	excer: 10
+	},
+	{
+  		name: 'Using props to pass data',
+    	excer:  7
+	},
+	{
+  		name: 'State of a component',
+    	excer: 14
+	}
+	]
 }
-]
- 
+
 
   return (
     <div>
-      <Header course={course}/>
-      <Content Parts={Parts} />
-      <Total Parts={Parts} />
+      <Header Course={Course}/>
+      <Content Course={Course} />
+      <Total Course={Course} />
     </div>
   )
 }
