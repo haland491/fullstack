@@ -1,6 +1,6 @@
-//Parte1 informacion del curso
-//EJERCICIO 1.5
-//PASO 5
+//Parte1/courseinfo
+//aplicacion final
+//
 import React from 'react';
 import ReactDOM from 'react-dom';
 const Header= (props)=>{
