@@ -1,70 +1,99 @@
-//Parte1/courseinfo
-//aplicacion final
-//
-import React from 'react';
-import ReactDOM from 'react-dom';
-const Header= (props)=>{
-	return(
-		<>
-			<h1> {props.Course.name} </h1>
-		</>
-		)
-}
-const Content=(props)=>{
-	console.log(props)
-	
-	return(
-	<>
-		<p> {props.Course.Parts[0].name} Ejercicios {props.Course.Parts[0].excer} </p>
-		<p> {props.Course.Parts[1].name} Ejercicios {props.Course.Parts[1].excer} </p>
-		<p> {props.Course.Parts[2].name} Ejercicios {props.Course.Parts[2].excer} </p>
-		
+// unicafe parte1
+//Aplicacion final
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 
-	</>
-	)
-}
-const Total=(props) =>{
-	var acc=0
-	var i=0
-		for(i in props.Course.Parts){
-			acc=acc+props.Course.Parts[i].excer
-			
-		}
-	
-	return(
-			<p>Total de Ejercicios es {acc}</p>
-			)
-	
+const Button=({handevent,text})=>(<button onClick={handevent}>{text}
+      </button>
+     )
+const Stadistics=(props)=>{
+  console.log(props)
+  if(props.allCliks===0){
+    return(
+      <div>
+        <h1> No hay Estadisticas aun</h1>
+      </div>
+      )
+  }
 
-}
-const App = () => {
-  const Course = {
-  	name:'Half Stack application development',
-    Parts:[
-	{
-  		name:'Fundamentals of React',
-    	excer: 10
-	},
-	{
-  		name: 'Using props to pass data',
-    	excer:  7
-	},
-	{
-  		name: 'State of a component',
-    	excer: 14
-	}
-	]
-}
+  const Prompun=(props.bueno-props.malo)/props.allCliks*100
+  const Porcomen=(props.bueno/props.allCliks)*100
 
-
-  return (
+   return(
     <div>
-      <Header Course={Course}/>
-      <Content Course={Course} />
-      <Total Course={Course} />
+      <h1> Stadistics</h1>
+      <tr>
+        <td>Bueno</td>
+        <td>{props.bueno}</td>
+      </tr>
+      <tr>
+        <td>Neutro</td>
+        <td>{props.neutral}</td>
+      </tr>
+      <tr>
+        <td>Malo </td>
+        <td>{props.malo}</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td>{props.allCliks}</td>
+      </tr>
+      <tr>
+        <td>Average</td>
+        <td>{Prompun}</td>
+      </tr>
+      <tr>
+        <td>Aceptacion</td>
+        <td>{Porcomen}</td>
+      </tr>
+    </div>
+     )
+ 
+}
+
+
+const App = () => {
+  const [good, setGood ] = useState(0)
+  const [neutral, setNet] = useState(0)
+  const [bad,setbad]= useState(0)
+  const [allCliks,setAllclicks]=useState(0)
+   
+
+  const handlegood=()=>{
+      setGood(good+1)
+      setAllclicks(allCliks+ 1)
+  }
+  
+  const handlernet=()=>{
+    setNet(neutral+1)
+    setAllclicks(allCliks+1)
+  }
+ 
+  const hanlerbad=()=>{
+    setbad(bad+1)
+    setAllclicks(allCliks+1)
+  }
+  
+ 
+  return (
+
+    <div>
+      <h1> give feedback</h1>
+      <Button handevent={handlegood} text='good'/>
+      <Button handevent={handlernet} text='neutral'/>
+      <Button handevent={hanlerbad} text='bad'/>
+      <Stadistics bueno={good} neutral={neutral} malo={bad} allCliks={allCliks}/>
     </div>
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App/>,document.getElementById('root'))
+
+
+
+
+
+
+
+
 
