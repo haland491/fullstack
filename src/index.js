@@ -1,99 +1,85 @@
-// unicafe parte1
-//Aplicacion final
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+  //Parte1 Anecdotes
+//  Aplicacion final
+  import React, {useState} from 'react'
+  import ReactDOM from 'react-dom'
 
-const Button=({handevent,text})=>(<button onClick={handevent}>{text}
-      </button>
-     )
-const Stadistics=(props)=>{
-  console.log(props)
-  if(props.allCliks===0){
-    return(
-      <div>
-        <h1> No hay Estadisticas aun</h1>
-      </div>
+  const History=(props)=>{
+    console.log(props)
+    const sum=props.points.reduce(function(acc,elemento){
+    return acc+=elemento
+     })
+    if(sum===0){
+      return(
+        <>
+          <p>  No hay votaciones aun </p>
+
+        </>
       )
-  }
+      }
+    const mayor=()=>{
+      var mayorAnec=0
+      for (var i = 0; i < props.points.length; i++) {
+        if(props.points[i]>mayorAnec) mayorAnec=props.points[i]
+        }
+        return  props.points.indexOf(mayorAnec)
+     }
+       
 
-  const Prompun=(props.bueno-props.malo)/props.allCliks*100
-  const Porcomen=(props.bueno/props.allCliks)*100
-
-   return(
-    <div>
-      <h1> Stadistics</h1>
-      <tr>
-        <td>Bueno</td>
-        <td>{props.bueno}</td>
-      </tr>
-      <tr>
-        <td>Neutro</td>
-        <td>{props.neutral}</td>
-      </tr>
-      <tr>
-        <td>Malo </td>
-        <td>{props.malo}</td>
-      </tr>
-      <tr>
-        <td>Total</td>
-        <td>{props.allCliks}</td>
-      </tr>
-      <tr>
-        <td>Average</td>
-        <td>{Prompun}</td>
-      </tr>
-      <tr>
-        <td>Aceptacion</td>
-        <td>{Porcomen}</td>
-      </tr>
-    </div>
-     )
- 
+  return(
+    <>
+      <h1> Anecdota mas votada </h1>
+      <p> {anecdotes[mayor()]}</p>
+      <p> Con {props.points[mayor()]} Votes</p> 
+      
+    </>
+    )
 }
-
-
-const App = () => {
-  const [good, setGood ] = useState(0)
-  const [neutral, setNet] = useState(0)
-  const [bad,setbad]= useState(0)
-  const [allCliks,setAllclicks]=useState(0)
-   
-
-  const handlegood=()=>{
-      setGood(good+1)
-      setAllclicks(allCliks+ 1)
-  }
   
-  const handlernet=()=>{
-    setNet(neutral+1)
-    setAllclicks(allCliks+1)
+  const App=(props)=>{
+    
+    const long=props.anecdotes.length
+    const [selected, setSelected]= useState(0)
+    var [points, setPoints]=useState(Array(long).fill(0))
+    
+    
+    const handlier=()=>{
+     setSelected(Math.floor(Math.random()*long))
+    }
+    const handlierVotes=()=>{
+      const copy=[...points]
+      copy[selected]+=1
+      setPoints(copy)
+      }
+    console.log(selected)
+    //console.log(points)
+       
+    
+    return (
+      <div>
+          <h1> Anecdota del dia</h1>
+          <p>{props.anecdotes[selected]}</p>
+          <p> Has {points[selected]} votes</p>
+          <button onClick={handlierVotes}>vote
+          </button>
+          <button onClick={handlier}> next anecdotes
+          </button>
+          <History anecdotes={anecdotes} points={points}/>
+      </div>
+    )
+
+
   }
- 
-  const hanlerbad=()=>{
-    setbad(bad+1)
-    setAllclicks(allCliks+1)
-  }
-  
- 
-  return (
 
-    <div>
-      <h1> give feedback</h1>
-      <Button handevent={handlegood} text='good'/>
-      <Button handevent={handlernet} text='neutral'/>
-      <Button handevent={hanlerbad} text='bad'/>
-      <Stadistics bueno={good} neutral={neutral} malo={bad} allCliks={allCliks}/>
-    </div>
-  )
-}
+  const anecdotes=[
+    'If it hurts, do it more often',
+    'Adding manpower to a late software project makes it later!',
+    'the first 90 percent of de code accounts for the first 90 percent of the development time...the ramaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
+    ]
 
-ReactDOM.render(<App/>,document.getElementById('root'))
-
-
-
-
-
-
-
-
-
+    ReactDOM.render(
+      <App anecdotes={anecdotes}/>, 
+    document.getElementById('root'))
+                          
